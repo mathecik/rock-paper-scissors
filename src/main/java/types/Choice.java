@@ -2,24 +2,28 @@ package types;
 
 public enum Choice {
 
-    ROCK{
+    ROCK {
         @Override
-        boolean beats(Choice ch) {
+        public boolean beats(Choice ch) {
             return ch.equals(Choice.SCISSORS);
         }
     },
     PAPER {
         @Override
-        boolean beats(Choice ch) {
+        public boolean beats(Choice ch) {
             return ch.equals(Choice.ROCK);
         }
     },
     SCISSORS {
         @Override
-        boolean beats(Choice ch) {
+        public boolean beats(Choice ch) {
             return ch.equals(Choice.PAPER);
         }
     };
 
-    abstract boolean beats(Choice ch);
+    public abstract boolean beats(Choice ch);
+
+    public static Choice chooseRandom() {
+        return values()[(int) (Math.random() * values().length)];
+    }
 }
