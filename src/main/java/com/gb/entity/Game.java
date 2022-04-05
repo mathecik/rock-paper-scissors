@@ -9,69 +9,58 @@ import javax.persistence.Id;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int gameId;
-    Player firstPlayer;
-    int firstPlayerScore;
-
-    public boolean isSaved() {
-        return saved;
-    }
-
-    public void setSaved(boolean saved) {
-        this.saved = saved;
-    }
-
-    boolean saved;
-
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
-    }
-
-    public void setFirstPlayer(Player firstPlayer) {
-        this.firstPlayer = firstPlayer;
-    }
-
-    public void setFirstPlayerScore(int firstPlayerScore) {
-        this.firstPlayerScore = firstPlayerScore;
-    }
-
-    public void setSecondPlayer(Player secondPlayer) {
-        this.secondPlayer = secondPlayer;
-    }
-
-    public void setSecondPlayerScore(int secondPlayerScore) {
-        this.secondPlayerScore = secondPlayerScore;
-    }
-
-    public void setRoundCount(int roundCount) {
-        this.roundCount = roundCount;
-    }
-
+    private int gameId;
     Player secondPlayer;
     int secondPlayerScore;
     int roundCount;
+    private Player firstPlayer;
+    private int firstPlayerScore;
 
     public int getGameId() {
         return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 
     public Player getFirstPlayer() {
         return firstPlayer;
     }
 
+    public void setFirstPlayer(Player firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
+
     public int getFirstPlayerScore() {
         return firstPlayerScore;
+    }
+
+    public void setFirstPlayerScore(int firstPlayerScore) {
+        this.firstPlayerScore = firstPlayerScore;
     }
 
     public Player getSecondPlayer() {
         return secondPlayer;
     }
 
+    public void setSecondPlayer(Player secondPlayer) {
+        this.secondPlayer = secondPlayer;
+    }
+
     public int getSecondPlayerScore() {
         return secondPlayerScore;
     }
 
+    public void setSecondPlayerScore(int secondPlayerScore) {
+        this.secondPlayerScore = secondPlayerScore;
+    }
+
     public int getRoundCount() {
         return roundCount;
+    }
+
+    public void setRoundCount(int roundCount) {
+        this.roundCount = roundCount;
     }
 }

@@ -15,8 +15,8 @@ public class Player {
     }
 
     @Id
-    String playerName;
-    Integer savedGameId;
+    private String playerName;
+    private Integer savedGameId;
 
     public Integer getSavedGameId() {
         return savedGameId;
