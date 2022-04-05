@@ -1,14 +1,13 @@
-package controller;
-import entity.Game;
-import exception.GameNotFoundException;
+package com.gb.controller;
+import com.gb.entity.Game;
+import com.gb.exception.GameNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.GameService;
-import types.Choice;
+import com.gb.service.GameService;
+import com.gb.types.Choice;
 
-import javax.persistence.Entity;
 
 @RestController
 @RequestMapping("/v1/games")
@@ -20,13 +19,14 @@ public class GameController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<Game> start(
-            @RequestParam("firstPlayerName") String playerOneName) {
+            @RequestParam("firstPlayerName") String playerOneName,
+            @RequestParam("newGame") Boolean newGame)  {
 
-        Game game = gameService.start(playerOneName);
+        Game game = gameService.start(playerOneName,newGame);
         if(playerOneName!=null) {
 
             if (game != null)
-                return new ResponseEntity<>(game,HttpStatus.OK);
+                return new ResponseEntity<>(game,HttpStatus.CREATED);
             else
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

@@ -1,6 +1,6 @@
-package util;
+package com.gb.util;
 
-import entity.Player;
+import com.gb.entity.Player;
 
 public class Constant {
     public static final String COMPUTER = "Frodo Baggins";
