@@ -1,12 +1,14 @@
 package com.gb.controller;
+
 import com.gb.entity.Game;
 import com.gb.exception.GameNotFoundException;
+import com.gb.service.GameService;
+import com.gb.types.Choice;
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.gb.service.GameService;
-import com.gb.types.Choice;
 
 
 @RestController
@@ -19,43 +21,36 @@ public class GameController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<Game> start(
-            @RequestParam("firstPlayerName") String playerOneName,
-            @RequestParam("newGame") Boolean newGame)  {
-
-        Game game = gameService.start(playerOneName,newGame);
-        if(playerOneName!=null) {
-
-            if (game != null)
-                return new ResponseEntity<>(game,HttpStatus.CREATED);
-            else
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            @RequestParam("firstPlayerName")  @NotNull String playerOneName,
+            @RequestParam("newGame") Boolean newGame) {
+        Game game = gameService.start(playerOneName, newGame);
+        if (game != null)
+            return new ResponseEntity<>(game, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/{gameId}")
     public ResponseEntity<Game> getGame(
             @PathVariable("gameId") int id) {
-
         try {
             Game game = gameService.getGame(id);
             return new ResponseEntity<>(game, HttpStatus.OK);
-        }
-        catch (GameNotFoundException ex){
+        } catch (GameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/{gameId}")
-    public Game choose(
+    public ResponseEntity<String> play(
             @PathVariable("gameId") int id,
-            @RequestParam("choice") Choice playerOneChoice) {
-        return gameService.choose(id, playerOneChoice);
+            @RequestParam("choice") @NotNull Choice playerOneChoice) {
+        return new ResponseEntity<>(gameService.play(id, playerOneChoice), HttpStatus.OK);
     }
 
     @PostMapping("/{gameId}")
-    public Game save(@PathVariable("gameId") int id){
-            return gameService.save(id);
+    public ResponseEntity<Game> save(@PathVariable("gameId") int id) {
+        return new ResponseEntity<>(gameService.save(id), HttpStatus.OK);
     }
 
 }

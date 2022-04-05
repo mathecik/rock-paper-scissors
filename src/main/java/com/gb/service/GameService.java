@@ -9,7 +9,7 @@ public interface GameService {
 
     Game getGame(int id);
 
-    Game choose(int id, Choice playerOneChoice);
+    String play(int id, Choice playerOneChoice);
 
     Game save(int id);
 

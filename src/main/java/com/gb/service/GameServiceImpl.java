@@ -26,7 +26,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Game start(String playerOneName, Boolean newGame) {
-        Player firstPlayer = null;
+        Player firstPlayer;
         try {
             firstPlayer = playerDAO.findById(playerOneName).orElseThrow();
         } catch (NoSuchElementException ex) {
@@ -34,7 +34,7 @@ public class GameServiceImpl implements GameService {
             playerDAO.save(firstPlayer);
         }
 
-        Game game = null;
+        Game game;
         if (newGame == null || !newGame) {
             if (firstPlayer.getSavedGameId() == null) {
                 game = new Game();
@@ -64,28 +64,31 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Game getGame(int id) {
-        Game game = gameDAO.findById(id).orElseThrow(() -> new GameNotFoundException(id));
-        return game;
+        return gameDAO.findById(id).orElseThrow(() -> new GameNotFoundException(id));
     }
 
     @Override
-    public Game choose(int id, Choice playerOneChoice) {
+    public String play(int id, Choice playerOneChoice) {
         Game game = gameDAO.findById(id).orElseThrow(() -> new GameNotFoundException(id));
-        evaluateBeater(game, playerOneChoice);
+        String noti = evaluateBeater(game, playerOneChoice);
         gameDAO.save(game);
-        return game;
+        return noti;
     }
 
-    private void evaluateBeater(Game game, Choice playerOneChoice) {
+    private String evaluateBeater(Game game, Choice playerOneChoice) {
         Choice computerChoice = Choice.chooseRandom();
+        String beatNotification = "It is a DRAW!";
         if (playerOneChoice != computerChoice) {
             if (playerOneChoice.beats(computerChoice)) {
                 game.setFirstPlayerScore(game.getFirstPlayerScore() + 1);
-            } else {
+                beatNotification =game.getFirstPlayer().getPlayerName()+" wins!!";
+            } else if(computerChoice.beats(playerOneChoice)){
                 game.setSecondPlayerScore(game.getSecondPlayerScore() + 1);
+                beatNotification =game.getSecondPlayer().getPlayerName()+" wins!!";
             }
         }
         game.setRoundCount(game.getRoundCount() + 1);
+        return beatNotification;
     }
 
     @Override
